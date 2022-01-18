@@ -8,6 +8,7 @@ import { InstallEvents, InstallOptions } from '../interfaces/events';
 import { CloneSettings, GitInstaller } from '../interfaces/metadata/installers/git';
 import { Session } from '../session';
 import { Uri } from '../util/uri';
+import { installEspIdf } from './espidf';
 
 export async function installGit(session: Session, activation: Activation, name: string, targetLocation: Uri, install: GitInstaller, events: Partial<InstallEvents>, options: Partial<InstallOptions & CloneOptions & CloneSettings>): Promise<void> {
   // clone the uri
@@ -45,5 +46,9 @@ export async function installGit(session: Session, activation: Activation, name:
         commit: install.commit
       });
     }
+  }
+
+  if (install.espidf) {
+    await installEspIdf(targetDirectory, activation);
   }
 }
