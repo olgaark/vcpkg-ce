@@ -5,6 +5,7 @@ import { fail } from 'assert';
 import { resolve } from 'path';
 import { MetadataFile } from '../amf/metadata-file';
 import { i } from '../i18n';
+import { activateEspIdf } from '../installers/espidf';
 import { InstallEvents } from '../interfaces/events';
 import { Registries } from '../registries/registries';
 import { Session } from '../session';
@@ -192,6 +193,11 @@ export class Artifact extends ArtifactBase {
     // construct tools
     // compose variables
     // defines
+
+    // special case -- add activation settings for espidf if we're doing an espidf activation.
+    if (this.metadata.info.flags.has('espidf')) {
+      await activateEspIdf(this.session, this.targetLocation, activation);
+    }
 
     const l = this.targetLocation.toString().length + 1;
     const allPaths = (await this.targetLocation.readDirectory(undefined, { recursive: true })).select(([name, stat]) => name.toString().substr(l));
