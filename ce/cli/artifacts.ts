@@ -129,7 +129,6 @@ export async function installArtifacts(session: Session, artifacts: Iterable<Art
       if (actuallyInstalled) {
         trackAcquire(artifact.id, artifact.version);
       }
-
     } catch (e: any) {
       bar.stop();
       debug(e);
